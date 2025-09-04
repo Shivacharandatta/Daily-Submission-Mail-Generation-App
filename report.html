@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Submission Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+    .container {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 650px;
+      text-align: center;
+    }
+    .logo {
+      width: 150px;
+      margin-bottom: 15px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    form {
+      text-align: left;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+      color: #34495e;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccd1d9;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #3498db;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Company Logo -->
+    <img src="logo.png" alt="Company Logo" class="logo">
+
+    <h2>Daily Submission Report</h2>
+    <form id="reportForm">
+      <label>Date</label>
+      <input type="date" id="date" required>
+
+      <label>Positions Worked</label>
+      <textarea id="positionsWorked"></textarea>
+
+      <label>Unique Submissions for the Day</label>
+      <textarea id="uniqueSubmissions"></textarea>
+
+      <label>Previous Closed Candidates Resubmitted</label>
+      <textarea id="resubmitted"></textarea>
+
+      <label>Pipeline for Future Roles</label>
+      <textarea id="pipeline"></textarea>
+
+      <label>Interviews</label>
+      <textarea id="interviews"></textarea>
+
+      <label>Offer</label>
+      <textarea id="offer"></textarea>
+
+      <label>Backout</label>
+      <textarea id="backout"></textarea>
+
+      <label>No of Calls Made Today</label>
+      <input type="number" id="calls" required>
+
+      <button type="button" onclick="generateEmail()">Generate Email</button>
+    </form>
+  </div>
+
+  <script>
+    function generateEmail() {
+      const date = document.getElementById("date").value;
+      const positionsWorked = document.getElementById("positionsWorked").value;
+      const uniqueSubmissions = document.getElementById("uniqueSubmissions").value;
+      const resubmitted = document.getElementById("resubmitted").value;
+      const pipeline = document.getElementById("pipeline").value;
+      const interviews = document.getElementById("interviews").value;
+      const offer = document.getElementById("offer").value;
+      const backout = document.getElementById("backout").value;
+      const calls = document.getElementById("calls").value;
+
+      // HTML formatted email body with a table
+      let body = `
+      <html>
+      <body>
+      <h3>Daily Submission Report (${date})</h3>
+      <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse; font-family:Arial; font-size:14px; width:100%;">
+        <tr style="background:#3498db; color:white; text-align:left;">
+          <th>Field</th>
+          <th>Details</th>
+        </tr>
+        <tr><td>Positions Worked</td><td>${positionsWorked || "-"}</td></tr>
+        <tr><td>Unique Submissions for the Day</td><td>${uniqueSubmissions || "-"}</td></tr>
+        <tr><td>Previous Closed Candidates Resubmitted</td><td>${resubmitted || "-"}</td></tr>
+        <tr><td>Pipeline for Future Roles</td><td>${pipeline || "-"}</td></tr>
+        <tr><td>Interviews</td><td>${interviews || "-"}</td></tr>
+        <tr><td>Offer</td><td>${offer || "-"}</td></tr>
+        <tr><td>Backout</td><td>${backout || "-"}</td></tr>
+        <tr><td>No of Calls Made Today</td><td>${calls || "-"}</td></tr>
+      </table>
+      </body>
+      </html>
+      `;
+
+      // Mail recipients
+      const to = "siva.datta@excelgens.com";
+      const cc = "manoj@excelgens.com; Samit@excelgens.com; Manish@excelgens.com";
+      const subject = `Daily Submission Report (${date})`;
+
+      // ⚠️ Note: Most email clients don't support full HTML via mailto.
+      // This trick works better in Outlook, but for Gmail, recruiters may need to paste the table manually.
+      const mailtoLink = `mailto:${to}?cc=${encodeURIComponent(cc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoLink;
+    }
+  </script>
+</body>
+</html>
