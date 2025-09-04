@@ -1,121 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daily Submission Email Generator</title>
+  <meta charset="UTF-8">
+  <title>Daily Submission Report</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f4f4f4;
+      background: #f7f9fc;
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+    .container {
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 700px;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 10px auto;
+      width: 150px;
     }
     h2 {
       text-align: center;
-    }
-    form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 700px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      color: #2c3e50;
     }
     label {
-      display: block;
-      margin-top: 15px;
       font-weight: bold;
+      margin-top: 10px;
+      display: block;
+      color: #34495e;
     }
     input, textarea {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      border: 1px solid #ccd1d9;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
     }
     button {
       margin-top: 20px;
-      padding: 10px 20px;
-      background: #0078D4;
+      width: 100%;
+      padding: 12px;
+      background: #3498db;
       color: white;
+      font-size: 16px;
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
       cursor: pointer;
     }
-    #emailPreview {
-      margin-top: 30px;
-      white-space: pre-wrap;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 700px;
-      margin: 30px auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    button:hover {
+      background: #2980b9;
     }
   </style>
 </head>
 <body>
-  <h2>Daily Submission Report Generator</h2>
-  <form id="reportForm">
-    <label>Positions Worked (comma-separated)</label>
-    <input type="text" id="positions" placeholder="e.g. 15867-1 Service Now Developer, ITSM"/>
+  <div class="container">
+    <img src="logo.png" alt="Company Logo" class="logo">
+    <h2>Daily Submission Report</h2>
+    <form id="reportForm">
+      <label>Date</label>
+      <input type="date" id="date" required>
 
-    <label>Unique Submissions (Name - Requisition)</label>
-    <textarea id="submissions" rows="2" placeholder="e.g. Anand Kumar - 15867-1"/>
+      <label>Positions Worked</label>
+      <input type="number" id="positionsWorkedNum" required>
+      <textarea id="positionsWorked" placeholder="Enter position details"></textarea>
 
-    <label>No. of Calls Made</label>
-    <input type="number" id="calls" />
+      <label>Unique Submissions for the Day</label>
+      <input type="number" id="uniqueSubmissionsNum" required>
+      <textarea id="uniqueSubmissions" placeholder="Enter submissions"></textarea>
 
-    <label>Previous Closed Candidates Resubmitted</label>
-    <input type="number" id="resubmitted" />
+      <label>Previous Closed Candidates Resubmitted</label>
+      <input type="number" id="resubmittedNum" required>
+      <textarea id="resubmitted"></textarea>
 
-    <label>Pipeline for Future Roles</label>
-    <input type="number" id="pipeline" />
+      <label>Pipeline for Future Roles</label>
+      <input type="number" id="pipelineNum" required>
+      <textarea id="pipeline" placeholder="(Name of the resources and Skills)"></textarea>
 
-    <label>Interviews</label>
-    <input type="number" id="interviews" />
+      <label>Interviews</label>
+      <input type="number" id="interviewsNum" required>
+      <textarea id="interviews"></textarea>
 
-    <label>Offers</label>
-    <input type="number" id="offers" />
+      <label>Offer</label>
+      <input type="number" id="offerNum" required>
+      <textarea id="offer" placeholder="(Name of the resources and requisition number)"></textarea>
 
-    <label>Backouts</label>
-    <input type="number" id="backouts" />
+      <label>Backout</label>
+      <input type="number" id="backoutNum" required>
+      <textarea id="backout" placeholder="(Name of the resources and requisition number)"></textarea>
 
-    <button type="button" onclick="generateEmail()">Generate Email</button>
-  </form>
+      <label>No of Calls Made Today</label>
+      <input type="number" id="calls" required>
 
-  <div id="emailPreview"></div>
+      <button type="button" onclick="generateEmail()">Generate Email</button>
+    </form>
+  </div>
 
   <script>
     function generateEmail() {
-      const positions = document.getElementById('positions').value;
-      const submissions = document.getElementById('submissions').value;
-      const calls = document.getElementById('calls').value;
-      const resubmitted = document.getElementById('resubmitted').value;
-      const pipeline = document.getElementById('pipeline').value;
-      const interviews = document.getElementById('interviews').value;
-      const offers = document.getElementById('offers').value;
-      const backouts = document.getElementById('backouts').value;
+      const date = document.getElementById("date").value;
+      const positionsWorkedNum = document.getElementById("positionsWorkedNum").value;
+      const positionsWorked = document.getElementById("positionsWorked").value;
+      const uniqueSubmissionsNum = document.getElementById("uniqueSubmissionsNum").value;
+      const uniqueSubmissions = document.getElementById("uniqueSubmissions").value;
+      const resubmittedNum = document.getElementById("resubmittedNum").value;
+      const resubmitted = document.getElementById("resubmitted").value;
+      const pipelineNum = document.getElementById("pipelineNum").value;
+      const pipeline = document.getElementById("pipeline").value;
+      const interviewsNum = document.getElementById("interviewsNum").value;
+      const interviews = document.getElementById("interviews").value;
+      const offerNum = document.getElementById("offerNum").value;
+      const offer = document.getElementById("offer").value;
+      const backoutNum = document.getElementById("backoutNum").value;
+      const backout = document.getElementById("backout").value;
+      const calls = document.getElementById("calls").value;
 
-      const emailBody = `
-Hi Team,
-
-Please find below the daily submission report for ${new Date().toLocaleDateString()}:
-
-🔹 Positions Worked: ${positions}
-🔹 Unique Submissions: ${submissions}
-🔹 Previous Closed Candidates Resubmitted: ${resubmitted}
-🔹 Pipeline for Future Roles: ${pipeline}
-🔹 Interviews: ${interviews}
-🔹 Offers: ${offers}
-🔹 Backouts: ${backouts}
-🔹 No. of Calls Made Today: ${calls}
-
-Regards,
-Recruitment Team
+      // Build HTML table
+      let htmlTable = `
+      <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; font-family:Arial; font-size:14px; width:100%;">
+        <tr style="background:yellow; font-weight:bold; text-align:center;">
+          <td colspan="3">Daily Submission report (${date})</td>
+        </tr>
+        <tr style="font-weight:bold; text-align:center;">
+          <td></td>
+          <td>Number</td>
+          <td>Name</td>
+        </tr>
+        <tr><td><b>Positions worked</b></td><td>${positionsWorkedNum}</td><td>${positionsWorked}</td></tr>
+        <tr><td><b>Unique submissions for the Day</b></td><td>${uniqueSubmissionsNum}</td><td>${uniqueSubmissions}</td></tr>
+        <tr><td><b>Previous closed candidates Resubmitted</b></td><td>${resubmittedNum}</td><td>${resubmitted}</td></tr>
+        <tr><td><b>Pipeline for future roles</b></td><td>${pipelineNum}</td><td>${pipeline}</td></tr>
+        <tr><td><b>Interviews</b></td><td>${interviewsNum}</td><td>${interviews}</td></tr>
+        <tr><td><b>Offer</b></td><td>${offerNum}</td><td>${offer}</td></tr>
+        <tr><td><b>Backout</b></td><td>${backoutNum}</td><td>${backout}</td></tr>
+        <tr><td><b>No of Calls Made today</b></td><td>${calls}</td><td></td></tr>
+      </table>
       `;
 
-      document.getElementById('emailPreview').innerText = emailBody;
+      // Recipients
+      const to = "your_email@company.com";
+      const cc = "leader1@company.com; leader2@company.com";
+      const subject = `Daily Submission Report (${date})`;
+
+      // ⚠️ Will still show raw HTML in mailto body, unless sent via backend
+      const mailtoLink = `mailto:${to}?cc=${encodeURIComponent(cc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(htmlTable)}`;
+      window.location.href = mailtoLink;
+
+      // For recruiter preview (optional) - open a new tab with the table
+      const win = window.open("", "_blank");
+      win.document.write(htmlTable);
     }
   </script>
 </body>
